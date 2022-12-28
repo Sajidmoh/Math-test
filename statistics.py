@@ -1,4 +1,6 @@
 def getMean(numbers):
+    if len(numbers) == 0:
+        return -1
     sum = 0
     for i in range(len(numbers)):
         sum = numbers[i] + sum
