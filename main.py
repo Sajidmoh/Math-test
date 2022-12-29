@@ -25,6 +25,13 @@ questionCountForSub = 0
 questionCountForDiv = 0
 questionCountForMul = 0
 
+questionsCount = {
+    "add":0,
+    "sub":0,
+    "mul":0,
+    "div":0
+}
+
 print("there are ", questionCount, " question in your test")
 print("         y or n ")
 check = input("are you ready to start: ")
@@ -46,6 +53,7 @@ if check == "y":
                 number1 , number2 = number2 , number1
         else:
             questionCountForAdd+=1
+            questionsCount["add"] += 1
         question = str(number1) + operator + str(number2)
         answer = eval(question)
         print(question)
@@ -94,10 +102,10 @@ meanTimeForDiv = statistics.getMean(timeTakenForDiv)
 meanTimeForMul = statistics.getMean(timeTakenForMul)
 
 # accuracy for each type of question ( operator )
-if questionCountForAdd == 0 :
+if questionsCount["add"] == 0 :
     accForAdd = 100
 else:
-    accForAdd = (scoreForAdd/questionCountForAdd ) * 100
+    accForAdd = (scoreForAdd/questionsCount["add"] ) * 100
 
 if questionCountForSub == 0 :
     accForSub = 100
