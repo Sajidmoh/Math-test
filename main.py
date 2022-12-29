@@ -3,8 +3,9 @@ from time import time
 import statistics
 
 score = 0
-questionCount = random.randint(2, 5)
+questionCount = random.randint(5,10)
 operators = ["*", "/", "+", "-"]
+
 # List for time taken values
 timeTakenList = []
 timeTakenForAdd = []
@@ -12,18 +13,12 @@ timeTakenForSub = []
 timeTakenForDiv = []
 timeTakenForMul = []
 
-# variables for score values 
-scoreForAdd = 0
-scoreForSub = 0
-scoreForMul = 0
-scoreForDiv = 0
-
-# variable to calcualte question count 
-
-questionCountForAdd = 0
-questionCountForSub = 0
-questionCountForDiv = 0
-questionCountForMul = 0
+scores ={
+    "add":0,
+    "sub":2,
+    "mul":0,
+    "div":0
+}
 
 questionsCount = {
     "add":0,
@@ -32,60 +27,76 @@ questionsCount = {
     "div":0
 }
 
+accuracy = {
+    "add":100,
+    "sub":100,
+    "mul":100,
+    "div":100
+}
+
+# start
 print("there are ", questionCount, " question in your test")
 print("         y or n ")
 check = input("are you ready to start: ")
+
 if check == "y":
     for i in range(questionCount):
         start = time()
+        
         number1 = random.randint(1, 100)
         number2 = random.randint(1, 100)
         operator = random.choice(operators)
+        
         if operator == "*":
             number2 = random.randint(1, 10)
-            questionCountForMul += 1
+            questionsCount["mul"]+=1
+            
         elif operator == "/":
             number1 = number2 * random.randint(1, 10)
-            questionCountForDiv += 1
+            questionsCount["div"] += 1
+            
         elif operator =="-":
-            questionCountForSub += 1
+            questionsCount["sub"] += 1
+            
             if number1 < number2 :
                 number1 , number2 = number2 , number1
+                
         else:
-            questionCountForAdd+=1
             questionsCount["add"] += 1
+            
         question = str(number1) + operator + str(number2)
         answer = eval(question)
+        
         print(question)
+        
         givenAnswer = int(input("enter your answer: "))
+        
         end = time()    
         time_taken = end-start
         timeTakenList.append(time_taken)
         
         if answer == givenAnswer:
             if operator == "+":
-                scoreForAdd+=1
+                scores["add"]+=1
                 timeTakenForAdd.append(time_taken)
             elif operator == "-":
                 timeTakenForSub.append(time_taken)
-                scoreForSub +=1
+                scores["sub"] +=1
             elif operator == "/":
                 timeTakenForDiv.append(time_taken)
-                scoreForDiv += 1
+                scores["div"] += 1
             elif operator == "*":
                 timeTakenForMul.append(time_taken)
-                scoreForAdd +=1
+                scores["mul"] +=1
             print("your answer is correct")
             score += 1
         else:
             print("incorrect")
         
-
-
-
 elif check == "n":
     print("come back when youre ready")
     exit()
+    
 else:
     print("you typed an ivalid input please try again")
 
@@ -102,30 +113,23 @@ meanTimeForDiv = statistics.getMean(timeTakenForDiv)
 meanTimeForMul = statistics.getMean(timeTakenForMul)
 
 # accuracy for each type of question ( operator )
-if questionsCount["add"] == 0 :
-    accForAdd = 100
-else:
-    accForAdd = (scoreForAdd/questionsCount["add"] ) * 100
 
-if questionCountForSub == 0 :
-    accForSub = 100
-else:
-    accForSub = (scoreForSub /questionCountForSub) *100
-
-if questionCountForDiv == 0:    
-    accForDiv = 100
-else: 
-    accForDiv = (scoreForDiv / questionCountForDiv) * 100  #Output
-
-if questionCountForMul == 0 :
-    accForMul = 100
-else:
-    accForMul = (scoreForMul/questionCountForMul) * 100
-
+for i in questionsCount:
+    if not questionsCount[i] == 0 :
+        accuracy[i] = (scores[i] / questionsCount[i] ) * 100
+        
 print()
 print("Conclusions")
 print()
-print("Comming Soon")
+
+
+if accuracy['add'] < accuracy['sub'] :
+    print("Practice more addition")
+else:
+    print("Practice more subtraction")
+
+print("... More .. -> Comming Soon")
+    
 print()
 print("Results :")
 print("------------------------------------")
@@ -134,10 +138,10 @@ print("---Accuracy values---")
 print()
 print(f"Your accuracy is : {acc}%")
 print()
-print(f"Accuracy for addition : {accForAdd}")
-print(f"Accuracy for subtraction : {accForSub}")
-print(f"Accuracy for Divivsion : {accForDiv}")
-print(f"Accuracy for Multiplication : {accForMul}")
+print(f"Accuracy for addition : {accuracy['add']}")
+print(f"Accuracy for subtraction : {accuracy['sub']}")
+print(f"Accuracy for Divivsion : {accuracy['div']}")
+print(f"Accuracy for Multiplication : {accuracy['mul']}")
 print()
 print("---Mean Values---")
 print()
