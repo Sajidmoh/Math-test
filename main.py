@@ -3,7 +3,6 @@ from time import time
 import statistics
 
 score = 0
-questionCount = random.randint(5,10)
 operators = ["*", "/", "+", "-"]
 
 # List for time taken values
@@ -34,13 +33,11 @@ accuracy = {
     "div":100
 }
 
-# start
-print("there are ", questionCount, " question in your test")
-print("         y or n ")
-check = input("are you ready to start: ")
 
-if check == "y":
-    for i in range(questionCount):
+
+def handleQuestion(questionCount):
+     global score
+     for i in range(questionCount):
         start = time()
         
         number1 = random.randint(1, 100)
@@ -92,69 +89,102 @@ if check == "y":
             score += 1
         else:
             print("incorrect")
-        
-elif check == "n":
-    print("come back when youre ready")
-    exit()
+
+
+
+            # ----------------------------------
+
+            
+# start
+while True :
+    questionCount = random.randint(5,10)            
+    print("there are ", questionCount, " question in your test")
+    print("         y or n ")
+    check = input("are you ready to start: ")
     
-else:
-    print("you typed an ivalid input please try again")
-
-acc = (score/questionCount)*100
-timeTaken = sum(timeTakenList)
-
-averageTimeTaken = statistics.getMean(timeTakenList)
-standardDeviation = statistics.getStandardDeviation(timeTakenList)
-
-# mean of timeTaken for specific type of questions ( operators )
-meanTimeForAdd = statistics.getMean(timeTakenForAdd)
-meanTimeForSub = statistics.getMean(timeTakenForSub)
-meanTimeForDiv = statistics.getMean(timeTakenForDiv)
-meanTimeForMul = statistics.getMean(timeTakenForMul)
-
-# accuracy for each type of question ( operator )
-
-for i in questionsCount:
-    if not questionsCount[i] == 0 :
-        accuracy[i] = (scores[i] / questionsCount[i] ) * 100
+    if check == "y":
+       handleQuestion(questionCount)
+            
+    elif check == "n":
+        print("come back when youre ready") #40 +1 10-21 21-30
+        exit()
         
-print()
-print("Conclusions")
-print()
-
-
-if accuracy['add'] < accuracy['sub'] :
-    print("Practice more addition")
-else:
-    print("Practice more subtraction")
-
-print("... More .. -> Comming Soon")
+    else:
+        print("you typed an ivalid input please try again")
     
-print()
-print("Results :")
-print("------------------------------------")
-print()
-print("---Accuracy values---")
-print()
-print(f"Your accuracy is : {acc}%")
-print()
-print(f"Accuracy for addition : {accuracy['add']}")
-print(f"Accuracy for subtraction : {accuracy['sub']}")
-print(f"Accuracy for Divivsion : {accuracy['div']}")
-print(f"Accuracy for Multiplication : {accuracy['mul']}")
-print()
-print("---Mean Values---")
-print()
-print(f"Mean time taken per question: {averageTimeTaken}")
-print()
-print(f"Mean Time For Addition: {meanTimeForAdd}"  )
-print(f"Mean Time For Subtraction: {meanTimeForSub}")
-print(f"Mean Time For Multiplication: {meanTimeForMul}")
-print(f"Mean Time For Division: {meanTimeForDiv}")
-print()
-print("---Additional Details---")
-print()
-print(f"standard deviation is {standardDeviation}")
-print(f"timetaken: {timeTaken} ")
-print("your score was", score, "out of ", questionCount)
-
+    acc = (score/questionCount)*100
+    timeTaken = sum(timeTakenList)
+    
+    averageTimeTaken = statistics.getMean(timeTakenList)
+    standardDeviation = statistics.getStandardDeviation(timeTakenList)
+    
+    # mean of timeTaken for specific type of questions ( operators )
+    meanTimeForAdd = statistics.getMean(timeTakenForAdd)
+    meanTimeForSub = statistics.getMean(timeTakenForSub)
+    meanTimeForDiv = statistics.getMean(timeTakenForDiv)
+    meanTimeForMul = statistics.getMean(timeTakenForMul)
+    
+    # accuracy for each type of question ( operator )
+    
+    for i in questionsCount:
+        if not questionsCount[i] == 0 :
+            accuracy[i] = (scores[i] / questionsCount[i] ) * 100
+            
+    print()
+    print("Conclusions")
+    print()
+    
+    
+    accLst = []
+    
+    for i,j in accuracy.items():
+        accLst.append([j,i])
+    
+    accLst.sort()
+    
+    minAcc = accLst[0][1]
+    
+    print("practice more"  , minAcc)
+        
+    
+    print("... More .. -> Comming Soon")
+        
+    print()
+    print("Results :")
+    print("------------------------------------")
+    print()
+    print("---Accuracy values---")
+    print()
+    print(f"Your accuracy is : {acc}%")
+    print()
+    print(f"Accuracy for addition : {accuracy['add']}")
+    print(f"Accuracy for subtraction : {accuracy['sub']}")
+    print(f"Accuracy for Divivsion : {accuracy['div']}")
+    print(f"Accuracy for Multiplication : {accuracy['mul']}")
+    print()
+    print("---Mean Values---")
+    print()
+    print(f"Mean time taken per question: {averageTimeTaken}")
+    print()
+    print(f"Mean Time For Addition: {meanTimeForAdd}"  )
+    print(f"Mean Time For Subtraction: {meanTimeForSub}")
+    print(f"Mean Time For Multiplication: {meanTimeForMul}")
+    print(f"Mean Time For Division: {meanTimeForDiv}")
+    print()
+    print("---Additional Details---")
+    print()
+    print(f"standard deviation is {standardDeviation}")
+    print(f"timetaken: {timeTaken} ")
+    print("your score was", score, "out of ", questionCount)
+    
+    repeat = input(f"Would you like to repeat the test with harder ")
+    print(minAcc)
+    print()
+    print("                y or n")
+    if repeat ==  "y":
+        print("Okay then practice!")
+        operators.append("-")
+    else :
+        print("Be serious in your calculations")
+        break
+        
