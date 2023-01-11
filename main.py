@@ -2,100 +2,106 @@ import random
 from time import time
 import statistics
 
-score = 0
-operators = ["*", "/", "+", "-"]
-
-# List for time taken values
-timeTakenList = []
-timeTakenForAdd = []
-timeTakenForSub = []
-timeTakenForDiv = []
-timeTakenForMul = []
-
-scores ={
-    "add":0,
-    "sub":2,
-    "mul":0,
-    "div":0
-}
-
-questionsCount = {
-    "add":0,
-    "sub":0,
-    "mul":0,
-    "div":0
-}
-
-accuracy = {
-    "add":100,
-    "sub":100,
-    "mul":100,
-    "div":100
-}
-
-
+def tryToPutAllinOne():
+    global score, operators
+    score = 0
+    operators = ["*", "/", "+", "-"]
+    ##################
+    global timeTakenList , timeTakenForAdd, timeTakenForSub, timeTakenForDiv, timeTakenForMul
+    timeTakenList = []
+    timeTakenForAdd = []
+    timeTakenForSub = []
+    timeTakenForDiv = []
+    timeTakenForMul = []
+    #####################
+    global scores
+    scores ={
+        "add":0,
+        "sub":2,
+        "mul":0,
+        "div":0
+    }
+    #############################
+    global questionsCount
+    questionsCount = {
+        "add":0,
+        "sub":0,
+        "mul":0,
+        "div":0
+    }
+    ##############################
+    global accuracy
+    accuracy = {
+        "add":100,
+        "sub":100,
+        "mul":100,
+        "div":100
+    }
+    #####################
+tryToPutAllinOne()
 
 def handleQuestion(questionCount):
-     global score
-     for i in range(questionCount):
-        start = time()
+ global score
+ for i in range(questionCount):
+    start = time()
+    
+    number1 = random.randint(1, 100)
+    number2 = random.randint(1, 100)
+    operator = random.choice(operators)
+    
+    if operator == "*":
+        number2 = random.randint(1, 10)
+        questionsCount["mul"]+=1
         
-        number1 = random.randint(1, 100)
-        number2 = random.randint(1, 100)
-        operator = random.choice(operators)
+    elif operator == "/":
+        number1 = number2 * random.randint(1, 10)
+        questionsCount["div"] += 1
         
-        if operator == "*":
-            number2 = random.randint(1, 10)
-            questionsCount["mul"]+=1
+    elif operator =="-":
+        questionsCount["sub"] += 1
+        
+        if number1 < number2 :
+            number1 , number2 = number2 , number1
             
+    else:
+        questionsCount["add"] += 1
+        
+    question = str(number1) + operator + str(number2)
+    answer = eval(question)
+    
+    print(question)
+    
+    givenAnswer = int(input("enter your answer: "))
+    
+    end = time()    
+    time_taken = end-start
+    timeTakenList.append(time_taken)
+    
+    if answer == givenAnswer:
+        if operator == "+":
+            scores["add"]+=1
+            timeTakenForAdd.append(time_taken)
+        elif operator == "-":
+            timeTakenForSub.append(time_taken)
+            scores["sub"] +=1
         elif operator == "/":
-            number1 = number2 * random.randint(1, 10)
-            questionsCount["div"] += 1
-            
-        elif operator =="-":
-            questionsCount["sub"] += 1
-            
-            if number1 < number2 :
-                number1 , number2 = number2 , number1
-                
-        else:
-            questionsCount["add"] += 1
-            
-        question = str(number1) + operator + str(number2)
-        answer = eval(question)
-        
-        print(question)
-        
-        givenAnswer = int(input("enter your answer: "))
-        
-        end = time()    
-        time_taken = end-start
-        timeTakenList.append(time_taken)
-        
-        if answer == givenAnswer:
-            if operator == "+":
-                scores["add"]+=1
-                timeTakenForAdd.append(time_taken)
-            elif operator == "-":
-                timeTakenForSub.append(time_taken)
-                scores["sub"] +=1
-            elif operator == "/":
-                timeTakenForDiv.append(time_taken)
-                scores["div"] += 1
-            elif operator == "*":
-                timeTakenForMul.append(time_taken)
-                scores["mul"] +=1
-            print("your answer is correct")
-            score += 1
-        else:
-            print("incorrect")
+            timeTakenForDiv.append(time_taken)
+            scores["div"] += 1
+        elif operator == "*":
+            timeTakenForMul.append(time_taken)
+            scores["mul"] +=1
+        print("your answer is correct")
+        score += 1
+    else:
+        print("incorrect")
 
 
 
-            # ----------------------------------
+        # ----------------------------------
 
-            
+        
 # start
+
 while True :
     questionCount = random.randint(5,10)            
     print("there are ", questionCount, " question in your test")
